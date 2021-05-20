@@ -37,14 +37,13 @@ class ExForm extends FormBase {
  }
  
  // ф-я валидации
-//  public function validateForm(array &$form, FormStateInterface $form_state) {
-//   $title = $form_state->getValue('title');
-//   $is_number = preg_match("/[\d]+/", $title, $match);
- 
-//   if ($is_number > 0) {
-//    $form_state->setErrorByName('title', $this->t('Error'));
-//   }
-//  }
+ public function validateForm(array &$form, FormStateInterface $form_state) {
+  $title = $form_state->getValue('title');
+  $is_number = preg_match("/\w{2,32}/", $title, $match);
+  if ($is_number <= 0) {
+   $form_state->setErrorByName('title', $this->t('Error'));
+  }
+ }
  
  // действия по сабмиту
  public function submitForm(array &$form, FormStateInterface $form_state) {
