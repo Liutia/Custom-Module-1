@@ -1,15 +1,15 @@
 liutia.first_page:
-  path: 'liutia/cats'
+  path: 'liutia/catss'
   defaults:
     _controller: '\Drupal\liutia\Controller\FirstPageController::content'
     _title: 'C.A.T.S'
   requirements:
     _permission: 'access content'
-    
-liutia.settings:
-  path: '/admin/structure/liutia/settings'
+
+liutia.example_form:
+  path: '/liutia/cats'
   defaults:
-    _form: '\Drupal\liutia\Form\liutiaSettingsForm'
-    _title: 'liutia Settings form'
+    _form:  '\Drupal\liutia\Form\ExForm'
+    _title: 'C.A.T.S'
   requirements:
-    _permission: 'administer site configuration'
+    _permission: 'access content'

@@ -23,8 +23,14 @@ class FirstBlock extends BlockBase {
     $config = $this->getConfiguration();
   
     if (!empty($config['liutia_first_block_settings'])) {
-      $text = $this->t('Hello @Name in block!', ['@Name' => $config['liutia_first_block_settings']]);
-    }
+      $form['liutia_first_block_settings'] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Name'),
+        '#description' => $this->t('Who do you want to say hello to?'),
+        '#default_value' => !empty($config['liutia_first_block_settings']) ? $config['liutia_first_block_settings'] : '',
+      ];
+    
+      return $form;    }
     else {
       $text = $this->t('Hello World in block!');
     }
@@ -33,17 +39,6 @@ class FirstBlock extends BlockBase {
       '#markup' => $text,
     ];
   }
-  
-  /**
-   * {@block}
-   */
-  protected function blockAccess(AccountInterface $account) {
-    return AccessResult::allowedIfHasPermission($account, 'access content');
-  }
-  
-  /**
-   * {@block}
-   */
   public function blockForm($form, FormStateInterface $form_state) {
     $config = $this->getConfiguration();
   
@@ -56,6 +51,18 @@ class FirstBlock extends BlockBase {
   
     return $form;
   }
+  
+  /**
+   * {@block}
+   */
+  protected function blockAccess(AccountInterface $account) {
+    return AccessResult::allowedIfHasPermission($account, 'access content');
+  }
+  
+  /**
+   * {@block}
+   */
+
   
   /**
    * {@block}
