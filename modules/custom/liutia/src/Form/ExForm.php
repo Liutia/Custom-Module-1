@@ -20,6 +20,7 @@ class ExForm extends FormBase {
    '#title' => $this->t('Your cat’s name:'),
    '#description' => $this->t('Name: 2-32 letters'),
    '#required' => TRUE,
+   '#maxlength' => 32,
   ];
  
   // Add a submit button that handles the submission of the form.
