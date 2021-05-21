@@ -55,7 +55,7 @@ class ExForm extends FormBase {
      '#required' => TRUE,
      '#upload_validators' => array(
          'file_validate_extensions' => array('png jpg jpeg'),
-         'file_validate_size' => array(2),
+         'file_validate_size' => array(2097152),
          ),
      '#required' => TRUE,
      ];
