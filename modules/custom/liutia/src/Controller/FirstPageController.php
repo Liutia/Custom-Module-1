@@ -4,7 +4,7 @@
  * @return
  * Contains \Drupal\liutia\Controller\FirstPageController.
  */
-  
+
 namespace Drupal\liutia\Controller;
   
 /**
@@ -24,6 +24,4 @@ class FirstPageController {
     );
     return $element;
   }
-  
-  
 }
