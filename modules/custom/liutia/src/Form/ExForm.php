@@ -4,8 +4,8 @@ namespace Drupal\liutia\Form;
 
 use Drupal\Core\Ajax\HtmlCommand;
 use Drupal\Core\Ajax\InsertCommand;
-use Drupal\Core\Form\FormBase;                   // Базовый класс Form API
-use Drupal\Core\Form\FormStateInterface;              // Класс отвечает за обработку данных
+use Drupal\Core\Form\FormBase;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Ajax\AjaxResponse;
 
 
@@ -18,9 +18,14 @@ class ExForm extends FormBase {
 
  public function buildForm(array $form, FormStateInterface $form_state) {
    $form['text']['#markup'] = 'Hello! You can add here a photo of your cat.';
+
    $form['message'] = [
      '#type' => 'markup',
      '#markup' => '<div class="result_message"></div>',
+   ];
+   $form['message2'] = [
+     '#type' => 'markup',
+     '#markup' => '<div class="result_email"></div>',
    ];
 
    $form['title'] = [
@@ -30,7 +35,12 @@ class ExForm extends FormBase {
      '#required' => TRUE,
      '#maxlength' => 32,
      ];
-
+   $form['email'] = array(
+     '#type' => 'email',
+     '#title' => $this->t('Your email:'),
+     '#description' => $this->t('Only A-Z, _ or -'),
+     '#required' => TRUE,
+   );
    $form['action'] = [
      '#type' => 'submit',
      '#value' => $this->t('Add cat'),
@@ -50,7 +60,7 @@ class ExForm extends FormBase {
      $response->addCommand(
        new HtmlCommand(
          '.result_message',
-         '<div class="my_top_message">' . $this->t('Error')
+         '<div class="my_top_message">' . $this->t('Not correct name')
        )
      );
    }
@@ -62,6 +72,27 @@ class ExForm extends FormBase {
        )
      );
    }
+
+   $email = $form_state->getValue('email');
+   $is_email = preg_match("/^(?:[a-zA-Z]+(?:[-_]?[a-zA-Z]+)?@[a-zA-Z_-]+(?:\.?[a-zA-Z]+)?\.[a-z]{2,5})$/i", $email);
+
+   if ($is_email> 0) {
+     $response->addCommand(
+       new HtmlCommand(
+         '.result_email',
+         '<div class="my_top_message">' . $this->t('You email: %title.', ['%title' => $email])
+       )
+     );
+   }
+   if ($is_email<= 0) {
+     $response->addCommand(
+       new HtmlCommand(
+         '.result_email',
+         '<div class="my_top_message">' . $this->t('Not correct email')
+       )
+     );
+   }
+
    return $response;
  }
 
