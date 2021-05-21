@@ -23,10 +23,6 @@ class ExForm extends FormBase {
      '#type' => 'markup',
      '#markup' => '<div class="result_message"></div>',
    ];
-   $form['message2'] = [
-     '#type' => 'markup',
-     '#markup' => '<div class="result_email"></div>',
-   ];
 
    $form['title'] = [
      '#type' => 'textfield',
@@ -35,12 +31,35 @@ class ExForm extends FormBase {
      '#required' => TRUE,
      '#maxlength' => 32,
      ];
+
+   $form['message2'] = [
+     '#type' => 'markup',
+     '#markup' => '<div class="result_email"></div>',
+   ];
+
    $form['email'] = array(
      '#type' => 'email',
      '#title' => $this->t('Your email:'),
      '#description' => $this->t('Only A-Z, _ or -'),
      '#required' => TRUE,
    );
+
+   $form['message3'] = [
+     '#type' => 'markup',
+     '#markup' => '<div class="result_image"></div>',
+   ];
+
+   $form['image'] = [
+     '#type' => 'managed_file',
+     '#title' => t('Cat photo'),
+     '#required' => TRUE,
+     '#upload_validators' => array(
+         'file_validate_extensions' => array('png jpg jpeg'),
+         'file_validate_size' => array(2),
+         ),
+     '#required' => TRUE,
+     ];
+
    $form['action'] = [
      '#type' => 'submit',
      '#value' => $this->t('Add cat'),
@@ -76,7 +95,7 @@ class ExForm extends FormBase {
    $email = $form_state->getValue('email');
    $is_email = preg_match("/^(?:[a-zA-Z]+(?:[-_]?[a-zA-Z]+)?@[a-zA-Z_-]+(?:\.?[a-zA-Z]+)?\.[a-z]{2,5})$/i", $email);
 
-   if ($is_email> 0) {
+   if ($is_email > 0) {
      $response->addCommand(
        new HtmlCommand(
          '.result_email',
@@ -84,11 +103,22 @@ class ExForm extends FormBase {
        )
      );
    }
-   if ($is_email<= 0) {
+   if ($is_email <= 0) {
      $response->addCommand(
        new HtmlCommand(
          '.result_email',
          '<div class="my_top_message">' . $this->t('Not correct email')
+       )
+     );
+   }
+
+   $image = $form_state->getValue('image');
+
+   if ($image < 2097152) {
+     $response->addCommand(
+       new HtmlCommand(
+         '.result_image',
+         '<div class="my_top_message">' . $this->t('Not correct image')
        )
      );
    }
